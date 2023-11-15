@@ -86,13 +86,7 @@ class _MyHomePageState extends State<MyHomePage> {
     switch (selectedIndex) {
       case 0:
         page = StatisticsPage();
-        //page = FavoritesPage();
         break;
-      /*
-      case 1:
-        page = GeneratorPage();
-        break;
-        */
       case 1:
         page = TrainingTablePage();
         break;
@@ -157,65 +151,113 @@ class BMICalculatorPage extends StatelessWidget {
     var appState = context.watch<MyAppState>();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('BMI Calculator'),
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      appBar: PreferredSize(
+        preferredSize: Size.fromHeight(80.0),
+        child: AppBar(
+          title: Container(
+            padding: EdgeInsets.all(8.0),
+            margin: EdgeInsets.all(8.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              color: Colors.white,
+              border: Border.all(color: Colors.white),
+            ),
+            child: Text(
+              'BMI Calculator',
+              style: TextStyle(color: Colors.black),
+            ),
+          ),
+          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        ),
       ),
       body: Container(
         color: Theme.of(context).colorScheme.primaryContainer,
         padding: EdgeInsets.all(16.0),
-        child: Center(
-          child: Container(
-            padding: EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              color: Colors.white,
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.grey.withOpacity(0.5),
-                  spreadRadius: 2,
-                  blurRadius: 5,
-                  offset: Offset(0, 3),
-                ),
-              ],
-            ),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                TextField(
-                  controller: appState.heightController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: 'Height (cm)',
-                    border: OutlineInputBorder(),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(vertical: 8.0),
+          child: Center(
+            child: Container(
+              padding: EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.0),
+                color: Colors.white,
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.grey.withOpacity(0.5),
+                    spreadRadius: 2,
+                    blurRadius: 5,
+                    offset: Offset(0, 3),
                   ),
-                ),
-                SizedBox(height: 16.0),
-                TextField(
-                  controller: appState.weightController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: 'Weight (kg)',
-                    border: OutlineInputBorder(),
+                ],
+              ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: <Widget>[
+                  TextField(
+                    controller: appState.heightController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: 'Height (cm)',
+                      border: OutlineInputBorder(),
+                    ),
                   ),
-                ),
-                SizedBox(height: 16.0),
-                ElevatedButton(
-                  onPressed: () {
-                    appState.calculateBMI();
-                  },
-                  child: Text('Calculate BMI'),
-                ),
-                SizedBox(height: 16.0),
-                Text(
-                  'BMI Result: ${appState.bmiResult.toStringAsFixed(2)}',
-                  style: TextStyle(fontSize: 20.0),
-                ),
-              ],
+                  SizedBox(height: 16.0),
+                  TextField(
+                    controller: appState.weightController,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      labelText: 'Weight (kg)',
+                      border: OutlineInputBorder(),
+                    ),
+                  ),
+                  SizedBox(height: 16.0),
+                  ElevatedButton(
+                    onPressed: () {
+                      appState.calculateBMI();
+                    },
+                    child: Text('Calculate BMI'),
+                  ),
+                  SizedBox(height: 16.0),
+                  Text(
+                    'BMI Result: ${appState.bmiResult.toStringAsFixed(2)}',
+                    style: TextStyle(fontSize: 20.0),
+                  ),
+                  SizedBox(height: 16.0),
+                  BMIResultCategory(bmi: appState.bmiResult),
+                ],
+              ),
             ),
           ),
         ),
       ),
+    );
+  }
+}
+
+class BMIResultCategory extends StatelessWidget {
+  final double bmi;
+
+  BMIResultCategory({required this.bmi});
+
+  String getBMICategory() {
+    if (bmi < 16) {
+      return 'Kritisches Untergewicht';
+    } else if (bmi >= 16 && bmi < 18.5) {
+      return 'Untergewicht';
+    } else if (bmi >= 18.5 && bmi < 25) {
+      return 'Normalgewicht';
+    } else if (bmi >= 25 && bmi < 30) {
+      return 'Leichtes Übergewicht';
+    } else {
+      return 'Übergewicht';
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text(
+      'BMI Category: ${getBMICategory()}',
+      style: TextStyle(fontSize: 20.0),
     );
   }
 }
@@ -460,6 +502,8 @@ class PageOne extends StatelessWidget {
   }
 }
 
+// PageTwo - PageSix need to be upgraded to PageOne standards
+
 class PageTwo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -572,19 +616,30 @@ class TrainingTablePage extends StatelessWidget {
 class Legend extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: 20),
-        Text('Legende', style: TextStyle(fontWeight: FontWeight.bold)),
-        SizedBox(height: 10),
-        Text('Brust + Trizeps + Schultern'),
-        Text('Rücken + Bizeps'),
-        Text('Beine'),
-        Text('Arme'),
-        // you could add more trainingmethods here
-      ],
+    return Container(
+      padding: EdgeInsets.all(8.0),
+      margin: EdgeInsets.all(8.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10.0),
+        color: Colors.white,
+        border: Border.all(color: Colors.white),
+      ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 20),
+          Text('Legende', style: TextStyle(fontWeight: FontWeight.bold)),
+          SizedBox(height: 10),
+          Text('Brust + Trizeps + Schultern'),
+          Text('Rücken + Bizeps'),
+          Text('Beine'),
+          Text('Arme'),
+          Text('Schultern'),
+          Text('Rücken'),
+          // you could add more trainingmethods here
+        ],
+      ),
     );
   }
 }
