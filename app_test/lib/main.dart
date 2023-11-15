@@ -10,8 +10,7 @@ void main() {
 ///
 ///
 ///
-/// If you read this... might think about adding a BMI calculator
-/// And why not think about adding the older F1 calculator software you made in a seperate site
+/// If you read this... might think about adding the older F1 calculator software you made in a seperate site
 ///
 ///
 ///
@@ -750,8 +749,6 @@ class _TrainingTableState extends State<TrainingTable> {
   }
 }
 
-import 'package:flutter/material.dart';
-
 class ImpressumPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -810,11 +807,23 @@ class ImpressumPage extends StatelessWidget {
                     ),
                   ],
                 ),
-                // Replace the following Placeholder with your Google Maps widget
-                child: Placeholder(
-                  fallbackHeight: 200.0,
-                  fallbackWidth: double.infinity,
-                ),
+                /* the following Feature needs to be postponed to the future due to Google difficulties
+                child: GoogleMap(
+                  initialCameraPosition: CameraPosition(
+                    target: LatLng(37.7749, -122.4194), // Replace with your desired initial position
+                    zoom: 14.0,
+                  ),
+                  markers: Set<Marker>.of([
+                    Marker(
+                      markerId: MarkerId('YourMarkerId'),
+                      position: LatLng(37.7749, -122.4194), // Replace with your marker position
+                      infoWindow: InfoWindow(
+                        title: 'Your Marker Title',
+                        snippet: 'Your Marker Snippet',
+                      ),
+                    ),
+                  ]),
+                ),*/
               ),
             ),
           ],
@@ -823,4 +832,3 @@ class ImpressumPage extends StatelessWidget {
     );
   }
 }
-
