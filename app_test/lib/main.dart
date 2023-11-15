@@ -39,35 +39,44 @@ class MyAppState extends ChangeNotifier {
   var current = WordPair.random();
 
   // BMI-related variables
-  TextEditingController heightController = TextEditingController();
-  TextEditingController weightController = TextEditingController();
+  double height = 170.0; // Default value, ändere dies nach Bedarf
+  double weight = 70.0; // Default value, ändere dies nach Bedarf
   double bmiResult = 0.0;
 
+  TextEditingController heightController = TextEditingController();
+  TextEditingController weightController = TextEditingController();
+
+  void setHeight(double newHeight) {
+    height = newHeight;
+    notifyListeners();
+  }
+
+  void setWeight(double newWeight) {
+    weight = newWeight;
+    notifyListeners();
+  }
+
   void calculateBMI() {
-    double height = double.parse(heightController.text);
-    double weight = double.parse(weightController.text);
-
-    // BMI-Formel: Gewicht (kg) / (Größe (m))^2
+    // Deine BMI-Berechnung hier
     double bmi = weight / ((height / 100) * (height / 100));
-
     bmiResult = bmi;
     notifyListeners();
+  }
 
-    void getNext() {
-      current = WordPair.random();
-      notifyListeners();
+  void getNext() {
+    current = WordPair.random();
+    notifyListeners();
+  }
+
+  var favorites = <WordPair>[];
+
+  void toggleFavorite() {
+    if (favorites.contains(current)) {
+      favorites.remove(current);
+    } else {
+      favorites.add(current);
     }
-
-    var favorites = <WordPair>[];
-
-    void toggleFavorite() {
-      if (favorites.contains(current)) {
-        favorites.remove(current);
-      } else {
-        favorites.add(current);
-      }
-      notifyListeners();
-    }
+    notifyListeners();
   }
 }
 
@@ -151,6 +160,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+// ...
+
 class BMICalculatorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -199,22 +210,21 @@ class BMICalculatorPage extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: <Widget>[
-                  TextField(
-                    controller: appState.heightController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: 'Height (cm)',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
                   SizedBox(height: 16.0),
-                  TextField(
-                    controller: appState.weightController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: 'Weight (kg)',
-                      border: OutlineInputBorder(),
-                    ),
+                  SliderInput(
+                    label: 'Height (cm)',
+                    value: appState.height,
+                    onChanged: (value) {
+                      appState.setHeight(value);
+                    },
+                  ),
+                  SizedBox(height: 8.0),
+                  SliderInput(
+                    label: 'Weight (kg)',
+                    value: appState.weight,
+                    onChanged: (value) {
+                      appState.setWeight(value);
+                    },
                   ),
                   SizedBox(height: 16.0),
                   ElevatedButton(
@@ -236,6 +246,38 @@ class BMICalculatorPage extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class SliderInput extends StatelessWidget {
+  final String label;
+  final double value;
+  final ValueChanged<double> onChanged;
+
+  SliderInput({
+    required this.label,
+    required this.value,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        Text(
+          label,
+          style: TextStyle(fontSize: 18.0),
+        ),
+        Slider(
+          value: value,
+          onChanged: onChanged,
+          min: 0.0,
+          max: 200.0, // Ändere dies nach Bedarf
+          divisions: 100,
+          label: value.toString(),
+        ),
+      ],
     );
   }
 }
