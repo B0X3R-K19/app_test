@@ -96,6 +96,9 @@ class _MyHomePageState extends State<MyHomePage> {
       case 3:
         page = BMICalculatorPage();
         break;
+      case 4:
+        page = ImpressumPage();
+        break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
     }
@@ -121,6 +124,10 @@ class _MyHomePageState extends State<MyHomePage> {
                   NavigationRailDestination(
                     icon: Icon(Icons.table_view),
                     label: Text('BMI'),
+                  ),
+                  NavigationRailDestination(
+                    icon: Icon(Icons.info),
+                    label: Text('Impressum'),
                   ),
                 ],
                 selectedIndex: selectedIndex,
@@ -742,3 +749,78 @@ class _TrainingTableState extends State<TrainingTable> {
     );
   }
 }
+
+import 'package:flutter/material.dart';
+
+class ImpressumPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Impressum'),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          children: [
+            // Left Box for Text
+            Expanded(
+              flex: 1,
+              child: Container(
+                padding: EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Your Impressum content goes here.',
+                      style: TextStyle(fontSize: 20.0),
+                    ),
+                    // Add more text widgets or details as needed
+                  ],
+                ),
+              ),
+            ),
+            SizedBox(width: 16.0), // Add spacing between the boxes
+            // Right Box for Google Maps
+            Expanded(
+              flex: 1,
+              child: Container(
+                padding: EdgeInsets.all(16.0),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(10.0),
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
+                    ),
+                  ],
+                ),
+                // Replace the following Placeholder with your Google Maps widget
+                child: Placeholder(
+                  fallbackHeight: 200.0,
+                  fallbackWidth: double.infinity,
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
