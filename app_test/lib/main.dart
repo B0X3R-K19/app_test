@@ -174,24 +174,21 @@ class StatisticsPage extends StatelessWidget {
       ),
       body: Container(
         color: Theme.of(context).colorScheme.primaryContainer,
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              StatisticCard(
-                title: 'Wie oft warst du diese Woche schon beim Sport:',
-                value: '1.5 M',
-              ),
-              StatisticCard(
-                title: 'Welches ist deine Lieblings Muskelgruppe:',
-                value: 'Test',
-              ),
-              StatisticCard(
-                title: 'Das solltest du vielleicht öfters trainieren:',
-                value: '10 K',
-              ),
-            ],
-          ),
+        child: ListView(
+          children: <Widget>[
+            StatisticCard(
+              title: 'Wie oft warst du diese Woche schon beim Sport:',
+              value: '1.5 M',
+            ),
+            StatisticCard(
+              title: 'Welches ist deine Lieblings Muskelgruppe:',
+              value: 'Test',
+            ),
+            StatisticCard(
+              title: 'Das solltest du vielleicht öfters trainieren:',
+              value: '10 K',
+            ),
+          ],
         ),
       ),
     );
@@ -212,7 +209,7 @@ class ExcerciseSamplePage extends StatelessWidget {
         children: [
           ImageCard(
             imageUrl:
-                'https://www.fitundattraktiv.de/wp-content/uploads/2018/01/bankdruecken_muskelgruppen-schraegbankdruecken_mit_kurzhanteln.gif',
+                'https://modusx.de/wp-content/uploads/brustpresse-parallelgriff.gif',
             onTap: () {
               Navigator.push(
                 context,
@@ -509,45 +506,51 @@ class _TrainingTableState extends State<TrainingTable> {
     'Arme'
   };
 
+  List<DataRow> generateDataRows() {
+    return List<DataRow>.generate(tableData.length, (index) {
+      return DataRow(
+        cells: List<DataCell>.generate(tableData[index].length, (cellIndex) {
+          if (cellIndex == 2) {
+            return DataCell(
+              PopupMenuButton<String>(
+                onSelected: (String newValue) {
+                  setState(() {
+                    tableData[index][cellIndex] = newValue;
+                  });
+                },
+                itemBuilder: (BuildContext context) {
+                  return trainingTypes.map((String value) {
+                    return PopupMenuItem<String>(
+                      value: value,
+                      child: Text(value),
+                    );
+                  }).toList();
+                },
+                child: Text(tableData[index][cellIndex]),
+              ),
+            );
+          } else {
+            return DataCell(Text(tableData[index][cellIndex]));
+          }
+        }),
+      );
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        DataTable(
-          columns: [
-            DataColumn(label: Text('Datum')),
-            DataColumn(label: Text('Wochentag')),
-            DataColumn(label: Text('Trainingsart')),
-          ],
-          rows: List<DataRow>.generate(tableData.length, (index) {
-            return DataRow(
-              cells:
-                  List<DataCell>.generate(tableData[index].length, (cellIndex) {
-                if (cellIndex == 2) {
-                  return DataCell(
-                    PopupMenuButton<String>(
-                      onSelected: (String newValue) {
-                        setState(() {
-                          tableData[index][cellIndex] = newValue;
-                        });
-                      },
-                      itemBuilder: (BuildContext context) {
-                        return trainingTypes.map((String value) {
-                          return PopupMenuItem<String>(
-                            value: value,
-                            child: Text(value),
-                          );
-                        }).toList();
-                      },
-                      child: Text(tableData[index][cellIndex]),
-                    ),
-                  );
-                } else {
-                  return DataCell(Text(tableData[index][cellIndex]));
-                }
-              }),
-            );
-          }),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: DataTable(
+            columns: [
+              DataColumn(label: Text('Datum')),
+              DataColumn(label: Text('Wochentag')),
+              DataColumn(label: Text('Trainingsart')),
+            ],
+            rows: generateDataRows(),
+          ),
         ),
         ElevatedButton(
           onPressed: () {
@@ -558,7 +561,7 @@ class _TrainingTableState extends State<TrainingTable> {
               tableData.add([
                 day,
                 date,
-                'Krafttraining'
+                'Krafttraining',
               ]); // Initialize to the first item in trainingTypes
             });
           },
