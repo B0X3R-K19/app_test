@@ -11,6 +11,7 @@ void main() {
 ///
 ///
 /// If you read this... might think about adding a BMI calculator
+/// And why not think about adding the older F1 calculator software you made in a seperate site
 ///
 ///
 ///
@@ -38,20 +39,36 @@ class MyApp extends StatelessWidget {
 class MyAppState extends ChangeNotifier {
   var current = WordPair.random();
 
-  void getNext() {
-    current = WordPair.random();
+  // BMI-related variables
+  TextEditingController heightController = TextEditingController();
+  TextEditingController weightController = TextEditingController();
+  double bmiResult = 0.0;
+
+  void calculateBMI() {
+    double height = double.parse(heightController.text);
+    double weight = double.parse(weightController.text);
+
+    // BMI-Formel: Gewicht (kg) / (Größe (m))^2
+    double bmi = weight / ((height / 100) * (height / 100));
+
+    bmiResult = bmi;
     notifyListeners();
-  }
 
-  var favorites = <WordPair>[];
-
-  void toggleFavorite() {
-    if (favorites.contains(current)) {
-      favorites.remove(current);
-    } else {
-      favorites.add(current);
+    void getNext() {
+      current = WordPair.random();
+      notifyListeners();
     }
-    notifyListeners();
+
+    var favorites = <WordPair>[];
+
+    void toggleFavorite() {
+      if (favorites.contains(current)) {
+        favorites.remove(current);
+      } else {
+        favorites.add(current);
+      }
+      notifyListeners();
+    }
   }
 }
 
@@ -71,14 +88,19 @@ class _MyHomePageState extends State<MyHomePage> {
         page = StatisticsPage();
         //page = FavoritesPage();
         break;
+      /*
       case 1:
         page = GeneratorPage();
         break;
-      case 2:
+        */
+      case 1:
         page = TrainingTablePage();
         break;
-      case 3:
+      case 2:
         page = ExcerciseSamplePage();
+        break;
+      case 3:
+        page = BMICalculatorPage();
         break;
       default:
         throw UnimplementedError('no widget for $selectedIndex');
@@ -96,15 +118,15 @@ class _MyHomePageState extends State<MyHomePage> {
                     label: Text('Home'),
                   ),
                   NavigationRailDestination(
-                    icon: Icon(Icons.favorite),
-                    label: Text('Favorites'),
+                    icon: Icon(Icons.calendar_today),
+                    label: Text('Training'),
                   ),
                   NavigationRailDestination(
-                      icon: Icon(Icons.calendar_today),
-                      label: Text('Training')),
+                      icon: Icon(Icons.favorite),
+                      label: Text('Excercise Sample')),
                   NavigationRailDestination(
-                    icon: Icon(Icons.track_changes),
-                    label: Text('Excercise Sample'),
+                    icon: Icon(Icons.table_view),
+                    label: Text('BMI'),
                   ),
                 ],
                 selectedIndex: selectedIndex,
@@ -126,6 +148,73 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       );
     });
+  }
+}
+
+class BMICalculatorPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    var appState = context.watch<MyAppState>();
+
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('BMI Calculator'),
+      ),
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Center(
+          child: Container(
+            padding: EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextField(
+                  controller: appState.heightController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'Height (cm)',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                SizedBox(height: 16.0),
+                TextField(
+                  controller: appState.weightController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'Weight (kg)',
+                    border: OutlineInputBorder(),
+                  ),
+                ),
+                SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: () {
+                    appState.calculateBMI();
+                  },
+                  child: Text('Calculate BMI'),
+                ),
+                SizedBox(height: 16.0),
+                Text(
+                  'BMI Result: ${appState.bmiResult.toStringAsFixed(2)}',
+                  style: TextStyle(fontSize: 20.0),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -541,15 +630,31 @@ class _TrainingTableState extends State<TrainingTable> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SingleChildScrollView(
-          scrollDirection: Axis.horizontal,
-          child: DataTable(
-            columns: [
-              DataColumn(label: Text('Datum')),
-              DataColumn(label: Text('Wochentag')),
-              DataColumn(label: Text('Trainingsart')),
+        Container(
+          padding: EdgeInsets.all(16.0),
+          margin: EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            color: Colors.white,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 2,
+                blurRadius: 5,
+                offset: Offset(0, 3),
+              ),
             ],
-            rows: generateDataRows(),
+          ),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: DataTable(
+              columns: [
+                DataColumn(label: Text('Datum')),
+                DataColumn(label: Text('Wochentag')),
+                DataColumn(label: Text('Trainingsart')),
+              ],
+              rows: generateDataRows(),
+            ),
           ),
         ),
         ElevatedButton(
@@ -572,6 +677,8 @@ class _TrainingTableState extends State<TrainingTable> {
   }
 }
 
+
+/*
 class GeneratorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -670,3 +777,4 @@ class FavoritesPage extends StatelessWidget {
     );
   }
 }
+*/
