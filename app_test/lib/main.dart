@@ -159,8 +159,10 @@ class BMICalculatorPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('BMI Calculator'),
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
-      body: Padding(
+      body: Container(
+        color: Theme.of(context).colorScheme.primaryContainer,
         padding: EdgeInsets.all(16.0),
         child: Center(
           child: Container(
@@ -229,6 +231,7 @@ class StatisticCard extends StatelessWidget {
     return Card(
       elevation: 5,
       margin: EdgeInsets.all(10),
+      color: Colors.white, // Hintergrundfarbe der Card
       child: Padding(
         padding: EdgeInsets.all(20),
         child: Column(
@@ -259,7 +262,18 @@ class StatisticsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Statistics'),
+        title: Container(
+          padding: EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            color: Colors.white, // Hintergrundfarbe der Box
+          ),
+          child: Text(
+            'Statistics',
+            style: TextStyle(color: Colors.black), // Schriftfarbe der Box
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       body: Container(
         color: Theme.of(context).colorScheme.primaryContainer,
@@ -536,7 +550,19 @@ class TrainingTablePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Training'),
+        title: Container(
+          padding: EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(8.0),
+            border: Border.all(color: Colors.white),
+            color: Colors.white,
+          ),
+          child: Text(
+            'Training',
+            style: TextStyle(color: Colors.black),
+          ),
+        ),
+        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       body: Container(
         decoration: BoxDecoration(
