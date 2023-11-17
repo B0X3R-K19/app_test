@@ -2,18 +2,15 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 void main() {
   runApp(MyApp());
 }
 
 ///
-///
-///
 /// If you read this... might think about adding the older F1 calculator software you made in a seperate site
-///
-///
-///
 ///
 
 class MyApp extends StatelessWidget {
@@ -39,8 +36,8 @@ class MyAppState extends ChangeNotifier {
   var current = WordPair.random();
 
   // BMI-related variables
-  double height = 170.0; // Default value, ändere dies nach Bedarf
-  double weight = 70.0; // Default value, ändere dies nach Bedarf
+  double height = 170.0; // Default value, change if needed
+  double weight = 70.0; // Default value, change if needed
   double bmiResult = 0.0;
 
   TextEditingController heightController = TextEditingController();
@@ -57,7 +54,7 @@ class MyAppState extends ChangeNotifier {
   }
 
   void calculateBMI() {
-    // Deine BMI-Berechnung hier
+    // BMI-Calculator
     double bmi = weight / ((height / 100) * (height / 100));
     bmiResult = bmi;
     notifyListeners();
@@ -159,8 +156,6 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 }
-
-// ...
 
 class BMICalculatorPage extends StatelessWidget {
   @override
@@ -273,7 +268,7 @@ class SliderInput extends StatelessWidget {
           value: value,
           onChanged: onChanged,
           min: 0.0,
-          max: 200.0, // Ändere dies nach Bedarf
+          max: 200.0, 
           divisions: 100,
           label: value.toString(),
         ),
@@ -321,7 +316,7 @@ class StatisticCard extends StatelessWidget {
     return Card(
       elevation: 5,
       margin: EdgeInsets.all(10),
-      color: Colors.white, // Hintergrundfarbe der Card
+      color: Colors.white, // backgroundcolor of the Card
       child: Padding(
         padding: EdgeInsets.all(20),
         child: Column(
@@ -347,6 +342,111 @@ class StatisticCard extends StatelessWidget {
   }
 }
 
+class WeatherWidget extends StatefulWidget {
+  @override
+  _WeatherWidgetState createState() => _WeatherWidgetState();
+}
+
+class _WeatherWidgetState extends State<WeatherWidget> {
+  final String apiKey = '1cae93d723d74e1a8e9125206231711';
+  final String apiUrl = 'https://api.weatherapi.com/v1/current.json?q=Munich&key=';
+
+  Future<Map<String, dynamic>> fetchWeather() async {
+    final response = await http.get(Uri.parse('$apiUrl$apiKey'));
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load weather data');
+    }
+  }
+  
+  String getWeatherIcon(String condition, double temperature, double? precipitation, double? windSpeed) {
+    if (condition.toLowerCase() == 'clear') {
+      return '🌞'; // Sunsymbol
+    } else if (condition.toLowerCase() == 'cloudy') {
+      return '☁️'; // Clouds
+    } else if (condition.toLowerCase() == 'rain') {
+      return '🌧️'; // Rain
+    } else {
+      // Symbol for unknown Weathercondition
+
+      // will decide which weather is today
+      if (temperature < 10 && precipitation != null && windSpeed != null && precipitation > 50 && windSpeed > 20) {
+        return '🌧️'; // Symbol for bad weather
+      } else {
+        return '❓'; // Symbol for unknown weathercondition
+      }
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return FutureBuilder<Map<String, dynamic>>(
+      future: fetchWeather(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: CircularProgressIndicator(),
+          );
+        } else if (snapshot.hasError) {
+          return Center(
+            child: Text('Error: ${snapshot.error}'),
+          );
+        } else {
+          final weatherData = snapshot.data;
+          final temperature = weatherData?['current']['temp_c'];
+          final condition = weatherData?['current']['condition']['text'];
+          final precipitation = weatherData?['current']['precip_mm'];
+          final humidity = weatherData?['current']['humidity'];
+          final windSpeed = weatherData?['current']['wind_kph'];
+          final localTime = weatherData?['location']['localtime'];
+
+          return Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Wetter in München:',
+                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+              ),
+              SizedBox(height: 8),
+              Text(
+                '$condition',
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                '$temperature °C',
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                'Niederschlag: ${precipitation ?? "N/A"}%',
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                'Luftfeuchte: ${humidity ?? "N/A"}%',
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                'Wind: ${windSpeed ?? "N/A"} km/h',
+                style: TextStyle(fontSize: 16),
+              ),
+              Text(
+                'Zeitpunkt der Vorhersage: $localTime',
+                style: TextStyle(fontSize: 16),
+              ),
+              SizedBox(height: 8),
+              Text(
+                'Wetter-Icon: ${getWeatherIcon(condition, temperature, precipitation, windSpeed)}',
+                style: TextStyle(fontSize: 16),
+              ),
+            ],
+          );
+        }
+      },
+    );
+  }
+}
+
 class StatisticsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -356,30 +456,80 @@ class StatisticsPage extends StatelessWidget {
           padding: EdgeInsets.all(8.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
-            color: Colors.white, // Hintergrundfarbe der Box
+            color: Theme.of(context).colorScheme.primaryContainer,
           ),
           child: Text(
             'Statistics',
-            style: TextStyle(color: Colors.black), // Schriftfarbe der Box
+            style: TextStyle(color: Colors.black),
           ),
         ),
         backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
-      body: Container(
-        color: Theme.of(context).colorScheme.primaryContainer,
-        child: ListView(
-          children: <Widget>[
-            StatisticCard(
-              title: 'Wie oft warst du diese Woche schon beim Sport:',
-              value: '1.5 M',
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.black),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Wichtige Informationen',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Hier könnten wichtige Informationen stehen, die den Nutzer interessieren.',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      WeatherWidget(), 
+                    ],
+                  ),
+                ),
+              ),
             ),
-            StatisticCard(
-              title: 'Welches ist deine Lieblings Muskelgruppe:',
-              value: 'Test',
-            ),
-            StatisticCard(
-              title: 'Das solltest du vielleicht öfters trainieren:',
-              value: '10 K',
+            SizedBox(width: 16.0), // Spacer
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    StatisticCard(
+                      title: 'Wie oft warst du diese Woche schon beim Sport:',
+                      value: '1.5 M',
+                    ),
+                    StatisticCard(
+                      title: 'Welches ist deine Lieblings Muskelgruppe:',
+                      value: 'Test',
+                    ),
+                    StatisticCard(
+                      title: 'Das solltest du vielleicht öfters trainieren:',
+                      value: '10 K',
+                    ),
+                  ],
+                ),
+              ),
             ),
           ],
         ),
@@ -387,6 +537,7 @@ class StatisticsPage extends StatelessWidget {
     );
   }
 }
+
 
 class ExcerciseSamplePage extends StatelessWidget {
   @override
@@ -402,7 +553,7 @@ class ExcerciseSamplePage extends StatelessWidget {
         children: [
           ImageCard(
             imageUrl:
-                'https://modusx.de/wp-content/uploads/brustpresse-parallelgriff.gif',
+                'https://modusx.de/wp-content/uploads/fliegende-kurzhanteln-flachbank.gif',
             onTap: () {
               Navigator.push(
                 context,
@@ -500,50 +651,120 @@ class ImageCard extends StatelessWidget {
 class PageOne extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
-        title: Text('Page One'),
+        title: Text('Chest'),
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: DataTable(
-            columns: const <DataColumn>[
-              DataColumn(
-                label: Text('Übungstyp'),
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer, // Hintergrundfarbe des gesamten Bildschirms
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white, // Hintergrundfarbe der Tabelle und des Texts
+                  border: Border.all(color: Colors.black),
+                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
+                ),
+                child: DataTable(
+                  columns: const <DataColumn>[
+                    DataColumn(
+                      label: Text(
+                        'Übungstyp',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        'Sätze',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    DataColumn(
+                      label: Text(
+                        'Wiederholungen',
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                  ],
+                  rows: const <DataRow>[
+                    DataRow(
+                      cells: <DataCell>[
+                        DataCell(Text('Liegestütze')),
+                        DataCell(Text('3')),
+                        DataCell(Text('8-15')),
+                      ],
+                    ),
+                    DataRow(
+                      cells: <DataCell>[
+                        DataCell(Text('Bankdrücken')),
+                        DataCell(Text('4')),
+                        DataCell(Text('8-12')),
+                      ],
+                    ),
+                    DataRow(
+                      cells: <DataCell>[
+                        DataCell(Text('Butterfly')),
+                        DataCell(Text('4')),
+                        DataCell(Text('8-15')),
+                      ],
+                    ),
+                    DataRow(
+                      cells: <DataCell>[
+                        DataCell(Text('Incline Bench Press')),
+                        DataCell(Text('4')),
+                        DataCell(Text('8-12')),
+                      ],
+                    ),
+                    DataRow(
+                      cells: <DataCell>[
+                        DataCell(Text('Cable Fly klassisch')),
+                        DataCell(Text('4')),
+                        DataCell(Text('10-15')),
+                      ],
+                    ),
+                    DataRow(
+                      cells: <DataCell>[
+                        DataCell(Text('Fliegende mit Kurzhanteln')),
+                        DataCell(Text('4')),
+                        DataCell(Text('8-12')),
+                      ],
+                    ),
+                    // ... (add more DataRow widgets as needed)
+                  ],
+                ),
               ),
-              DataColumn(
-                label: Text('Sätze'),
+            ),
+            SizedBox(width: 16.0), // Spacer
+            Container(
+              padding: EdgeInsets.all(16.0),
+              decoration: BoxDecoration(
+                color: Colors.white, // Hintergrundfarbe des Texts
+                border: Border.all(color: Colors.black),
+                borderRadius: BorderRadius.all(Radius.circular(10.0)),
               ),
-              DataColumn(
-                label: Text('Wiederholungen'),
-              ),
-            ],
-            rows: const <DataRow>[
-              DataRow(
-                cells: <DataCell>[
-                  DataCell(Text('Bankdrücken')),
-                  DataCell(Text('4')),
-                  DataCell(Text('8-12')),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Übungen für den Brustmuskel',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16.0,
+                    ),
+                  ),
+                  SizedBox(height: 8.0),
+                  Text(
+                    'In dieser umfangreichen Übersicht findest du eine Vielzahl \nvon effektiven Übungen, um deine Brustmuskeln zu stärken und zu formen. \nEgal ob Bankdrücken, Liegestütze oder Fliegende \n– hier sind Übungen für jeden dabei. \nLos geht’s zum Training!',
+                    style: TextStyle(fontSize: 14.0),
+                  ),
                 ],
               ),
-              DataRow(
-                cells: <DataCell>[
-                  DataCell(Text('Butterfly')),
-                  DataCell(Text('4')),
-                  DataCell(Text('8-15')),
-                ],
-              ),
-              DataRow(
-                cells: <DataCell>[
-                  DataCell(Text('incline bench press')),
-                  DataCell(Text('4')),
-                  DataCell(Text('8-12')),
-                ],
-              ),
-              // ... (add more DataRow widgets as needed)
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
@@ -557,7 +778,7 @@ class PageTwo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Page Two'),
+        title: Text('Back'),
       ),
       body: Center(
         child: Text('Content of Page Two'),
