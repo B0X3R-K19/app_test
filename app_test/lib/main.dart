@@ -9,9 +9,10 @@ void main() {
   runApp(MyApp());
 }
 
-///
+/// https://modusx.de/fitness-uebungen/muskelgruppe/brust/
 /// If you read this... might think about adding the older F1 calculator software you made in a seperate site
-///
+/// https://www.weatherapi.com/
+/// https://fonts.foogle.com/icons
 
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
@@ -164,22 +165,12 @@ class BMICalculatorPage extends StatelessWidget {
 
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(80.0),
+        preferredSize: Size.fromHeight(55.0),
         child: AppBar(
-          title: Container(
-            padding: EdgeInsets.all(8.0),
-            margin: EdgeInsets.all(8.0),
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
-              color: Colors.white,
-              border: Border.all(color: Colors.white),
-            ),
-            child: Text(
-              'BMI Calculator',
-              style: TextStyle(color: Colors.black),
-            ),
+          title: Text(
+            'BMI Calculator',
+            style: TextStyle(color: Colors.black),
           ),
-          backgroundColor: Theme.of(context).colorScheme.primaryContainer,
         ),
       ),
       body: Container(
@@ -193,6 +184,7 @@ class BMICalculatorPage extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 color: Colors.white,
+                border: Border.all(color: Colors.black),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.5),
@@ -244,6 +236,7 @@ class BMICalculatorPage extends StatelessWidget {
     );
   }
 }
+
 
 class SliderInput extends StatelessWidget {
   final String label;
@@ -333,6 +326,98 @@ class StatisticCard extends StatelessWidget {
               value,
               style: TextStyle(
                 fontSize: 18,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class StatisticsPage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Container(
+          padding: EdgeInsets.all(8.0),
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10.0),
+            color: Colors.white,
+            //border: Border.all(color: Colors.black),
+          ),
+          child: Text(
+            'Statistics',
+            style: TextStyle(color: Colors.black),
+          ),
+        ),
+        //backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      ),
+      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+      body: Padding(
+        padding: EdgeInsets.all(16.0),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Colors.black),
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Wichtige Informationen',
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                      SizedBox(height: 10),
+                      Text(
+                        'Hier könnten wichtige Informationen stehen, die den Nutzer interessieren.',
+                        style: TextStyle(
+                          fontSize: 18,
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      WeatherWidget(), 
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(width: 16.0), // Spacer
+            Expanded(
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Theme.of(context).colorScheme.primaryContainer,
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    StatisticCard(
+                      title: 'Wie oft warst du diese Woche schon beim Sport:',
+                      value: '1.5 M',
+                    ),
+                    StatisticCard(
+                      title: 'Welches ist deine Lieblings Muskelgruppe:',
+                      value: 'Test',
+                    ),
+                    StatisticCard(
+                      title: 'Das solltest du vielleicht öfters trainieren:',
+                      value: '10 K',
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -446,98 +531,6 @@ class _WeatherWidgetState extends State<WeatherWidget> {
     );
   }
 }
-
-class StatisticsPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Container(
-          padding: EdgeInsets.all(8.0),
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.0),
-            color: Theme.of(context).colorScheme.primaryContainer,
-          ),
-          child: Text(
-            'Statistics',
-            style: TextStyle(color: Colors.black),
-          ),
-        ),
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-      ),
-      backgroundColor: Theme.of(context).colorScheme.primaryContainer,
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Colors.black),
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Wichtige Informationen',
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 10),
-                      Text(
-                        'Hier könnten wichtige Informationen stehen, die den Nutzer interessieren.',
-                        style: TextStyle(
-                          fontSize: 18,
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      WeatherWidget(), 
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(width: 16.0), // Spacer
-            Expanded(
-              child: Container(
-                decoration: BoxDecoration(
-                  color: Theme.of(context).colorScheme.primaryContainer,
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    StatisticCard(
-                      title: 'Wie oft warst du diese Woche schon beim Sport:',
-                      value: '1.5 M',
-                    ),
-                    StatisticCard(
-                      title: 'Welches ist deine Lieblings Muskelgruppe:',
-                      value: 'Test',
-                    ),
-                    StatisticCard(
-                      title: 'Das solltest du vielleicht öfters trainieren:',
-                      value: '10 K',
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 
 class ExcerciseSamplePage extends StatelessWidget {
   @override
@@ -852,7 +845,7 @@ class TrainingTablePage extends StatelessWidget {
           padding: EdgeInsets.all(8.0),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.0),
-            border: Border.all(color: Colors.white),
+            //border: Border.all(color: Colors.black),
             color: Colors.white,
           ),
           child: Text(
@@ -860,7 +853,7 @@ class TrainingTablePage extends StatelessWidget {
             style: TextStyle(color: Colors.black),
           ),
         ),
-        backgroundColor: Theme.of(context).colorScheme.primaryContainer,
+        //backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       body: Container(
         decoration: BoxDecoration(
@@ -891,7 +884,7 @@ class Legend extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         color: Colors.white,
-        border: Border.all(color: Colors.white),
+        border: Border.all(color: Colors.black),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -971,9 +964,10 @@ class _TrainingTableState extends State<TrainingTable> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
             color: Colors.white,
+            border: Border.all(color: Colors.black),
             boxShadow: [
               BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
+                color: Colors.white.withOpacity(0.5),
                 spreadRadius: 2,
                 blurRadius: 5,
                 offset: Offset(0, 3),
@@ -1019,7 +1013,11 @@ class ImpressumPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Impressum'),
       ),
-      body: Padding(
+      body: Container(
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primaryContainer,
+        ),
+        child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Row(
           children: [
@@ -1044,7 +1042,7 @@ class ImpressumPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Your Impressum content goes here.',
+                      'Impressum \n\nFabian Parzer \nAuszubildender \n\nKontakt: \nTelefon: 01234 56789 \nE-Mail: info@musterunternehmen.de \n\nIS4IT GmbH \nGrünwalder Weg 28B \n82041 Oberhaching \n\nwww.is4it.de \nSitz der Gesellschaft: Oberhaching \nGeschäftsführer: Robert Fröhlich, Stephan Kowalsky \nRegistergericht München HRB 141 845',
                       style: TextStyle(fontSize: 20.0),
                     ),
                     // Add more text widgets or details as needed
@@ -1070,7 +1068,7 @@ class ImpressumPage extends StatelessWidget {
                   ],
                 ),
                 child: Image.asset(
-                    'assets/CompanyLocation.png', // Ersetzen Sie "image.jpg" durch den tatsächlichen Dateinamen Ihres Bildes
+                    'assets/CompanyLocation.png',
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -1078,6 +1076,7 @@ class ImpressumPage extends StatelessWidget {
           ],
         ),
       ),
+    ),
     );
   }
 }
