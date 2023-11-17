@@ -1053,7 +1053,6 @@ class ImpressumPage extends StatelessWidget {
               ),
             ),
             SizedBox(width: 16.0), // Add spacing between the boxes
-            // Right Box for Google Maps
             Expanded(
               flex: 1,
               child: Container(
@@ -1070,6 +1069,19 @@ class ImpressumPage extends StatelessWidget {
                     ),
                   ],
                 ),
+                child: Image.asset(
+                    'assets/CompanyLocation.png', // Ersetzen Sie "image.jpg" durch den tatsächlichen Dateinamen Ihres Bildes
+                    fit: BoxFit.cover,
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
                 /* the following Feature needs to be postponed to the future due to Google difficulties
                 child: GoogleMap(
                   initialCameraPosition: CameraPosition(
@@ -1087,11 +1099,3 @@ class ImpressumPage extends StatelessWidget {
                     ),
                   ]),
                 ),*/
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
