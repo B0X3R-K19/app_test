@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         title: 'Training',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
         ),
         home: MyHomePage(),
       ),
@@ -237,7 +237,6 @@ class BMICalculatorPage extends StatelessWidget {
   }
 }
 
-
 class SliderInput extends StatelessWidget {
   final String label;
   final double value;
@@ -261,7 +260,7 @@ class SliderInput extends StatelessWidget {
           value: value,
           onChanged: onChanged,
           min: 0.0,
-          max: 200.0, 
+          max: 200.0,
           divisions: 100,
           label: value.toString(),
         ),
@@ -373,7 +372,7 @@ class StatisticsPage extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Wichtige Informationen',
+                        'IS4Fit',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -381,13 +380,13 @@ class StatisticsPage extends StatelessWidget {
                       ),
                       SizedBox(height: 10),
                       Text(
-                        'Hier könnten wichtige Informationen stehen, die den Nutzer interessieren.',
+                        'Willkommen zu meinem kleinem Flutter Projekt. \nDiese Software entstand aufgrund von privaten Interesse/Bedarf und möglichen Vorteilen für meine Ausbildung. \nFolgende Techniken wurden zum Beispiel implementiert: \n-> Grundstruktur: Tabellenerstellung, einfache Logik Verzweigung, Datenstrukturen(Arrays), URL Einbindungen, Visuelle Anpassungen, etc. \n-> Wetter API Anbindung + Vormerkung für Google Maps API Anbindung',
                         style: TextStyle(
                           fontSize: 18,
                         ),
                       ),
                       SizedBox(height: 20),
-                      WeatherWidget(), 
+                      WeatherWidget(),
                     ],
                   ),
                 ),
@@ -434,7 +433,8 @@ class WeatherWidget extends StatefulWidget {
 
 class _WeatherWidgetState extends State<WeatherWidget> {
   final String apiKey = '1cae93d723d74e1a8e9125206231711';
-  final String apiUrl = 'https://api.weatherapi.com/v1/current.json?q=Munich&key=';
+  final String apiUrl =
+      'https://api.weatherapi.com/v1/current.json?q=Munich&key=';
 
   Future<Map<String, dynamic>> fetchWeather() async {
     final response = await http.get(Uri.parse('$apiUrl$apiKey'));
@@ -445,8 +445,9 @@ class _WeatherWidgetState extends State<WeatherWidget> {
       throw Exception('Failed to load weather data');
     }
   }
-  
-  String getWeatherIcon(String condition, double temperature, double? precipitation, double? windSpeed) {
+
+  String getWeatherIcon(String condition, double temperature,
+      double? precipitation, double? windSpeed) {
     if (condition.toLowerCase() == 'clear') {
       return '🌞'; // Sunsymbol
     } else if (condition.toLowerCase() == 'cloudy') {
@@ -457,7 +458,11 @@ class _WeatherWidgetState extends State<WeatherWidget> {
       // Symbol for unknown Weathercondition
 
       // will decide which weather is today
-      if (temperature < 10 && precipitation != null && windSpeed != null && precipitation > 50 && windSpeed > 20) {
+      if (temperature < 10 &&
+          precipitation != null &&
+          windSpeed != null &&
+          precipitation > 50 &&
+          windSpeed > 20) {
         return '🌧️'; // Symbol for bad weather
       } else {
         return '❓'; // Symbol for unknown weathercondition
@@ -644,12 +649,13 @@ class ImageCard extends StatelessWidget {
 class PageOne extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       appBar: AppBar(
         title: Text('Chest'),
       ),
-      backgroundColor: Theme.of(context).colorScheme.primaryContainer, // Hintergrundfarbe des gesamten Bildschirms
+      backgroundColor: Theme.of(context)
+          .colorScheme
+          .primaryContainer, // Hintergrundfarbe des gesamten Bildschirms
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Row(
@@ -658,7 +664,8 @@ class PageOne extends StatelessWidget {
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
-                  color: Colors.white, // Hintergrundfarbe der Tabelle und des Texts
+                  color: Colors
+                      .white, // Hintergrundfarbe der Tabelle und des Texts
                   border: Border.all(color: Colors.black),
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 ),
@@ -1018,65 +1025,65 @@ class ImpressumPage extends StatelessWidget {
           color: Theme.of(context).colorScheme.primaryContainer,
         ),
         child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Row(
-          children: [
-            // Left Box for Text
-            Expanded(
-              flex: 1,
-              child: Container(
-                padding: EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Impressum \n\nFabian Parzer \nAuszubildender \n\nKontakt: \nTelefon: 01234 56789 \nE-Mail: info@musterunternehmen.de \n\nIS4IT GmbH \nGrünwalder Weg 28B \n82041 Oberhaching \n\nwww.is4it.de \nSitz der Gesellschaft: Oberhaching \nGeschäftsführer: Robert Fröhlich, Stephan Kowalsky \nRegistergericht München HRB 141 845',
-                      style: TextStyle(fontSize: 20.0),
-                    ),
-                    // Add more text widgets or details as needed
-                  ],
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            children: [
+              // Left Box for Text
+              Expanded(
+                flex: 1,
+                child: Container(
+                  padding: EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Impressum \n\nFabian Parzer \nAuszubildender \n\nKontakt: \nTelefon: 01234 56789 \nE-Mail: info@musterunternehmen.de \n\nIS4IT GmbH \nGrünwalder Weg 28B \n82041 Oberhaching \n\nwww.is4it.de \nSitz der Gesellschaft: Oberhaching \nGeschäftsführer: Robert Fröhlich, Stephan Kowalsky \nRegistergericht München HRB 141 845',
+                        style: TextStyle(fontSize: 20.0),
+                      ),
+                      // Add more text widgets or details as needed
+                    ],
+                  ),
                 ),
               ),
-            ),
-            SizedBox(width: 16.0), // Add spacing between the boxes
-            Expanded(
-              flex: 1,
-              child: Container(
-                padding: EdgeInsets.all(16.0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  color: Colors.white,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.5),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
-                ),
-                child: Image.asset(
+              SizedBox(width: 16.0), // Add spacing between the boxes
+              Expanded(
+                flex: 1,
+                child: Container(
+                  padding: EdgeInsets.all(16.0),
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.0),
+                    color: Colors.white,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 2,
+                        blurRadius: 5,
+                        offset: Offset(0, 3),
+                      ),
+                    ],
+                  ),
+                  child: Image.asset(
                     'assets/CompanyLocation.png',
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
-          ],
+            ],
+          ),
         ),
       ),
-    ),
     );
   }
 }
