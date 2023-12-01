@@ -25,7 +25,7 @@ class MyApp extends StatelessWidget {
         title: 'Training',
         theme: ThemeData(
           useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.red),
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
         ),
         home: MyHomePage(),
       ),
@@ -344,14 +344,12 @@ class StatisticsPage extends StatelessWidget {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
             color: Colors.white,
-            //border: Border.all(color: Colors.black),
           ),
           child: Text(
             'Statistics',
             style: TextStyle(color: Colors.black),
           ),
         ),
-        //backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       ),
       backgroundColor: Theme.of(context).colorScheme.primaryContainer,
       body: Padding(
@@ -399,23 +397,32 @@ class StatisticsPage extends StatelessWidget {
                   color: Theme.of(context).colorScheme.primaryContainer,
                   borderRadius: BorderRadius.circular(10.0),
                 ),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    StatisticCard(
-                      title: 'Wie oft warst du diese Woche schon beim Sport:',
-                      value: '1.5 M',
-                    ),
-                    StatisticCard(
-                      title: 'Welches ist deine Lieblings Muskelgruppe:',
-                      value: 'Test',
-                    ),
-                    StatisticCard(
-                      title: 'Das solltest du vielleicht öfters trainieren:',
-                      value: '10 K',
-                    ),
-                  ],
+                child: Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Container(
+                        margin: EdgeInsets.only(bottom: 16.0),
+                        child: StatisticCard(
+                          title: 'Wie oft warst du diese Woche schon beim Sport:',
+                          value: '1.5 M',
+                        ),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 16.0),
+                        child: StatisticCard(
+                          title: 'Welches ist deine Lieblings Muskelgruppe:',
+                          value: 'Test',
+                        ),
+                      ),
+                      StatisticCard(
+                        title: 'Das solltest du vielleicht öfters trainieren:',
+                        value: '10 K',
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -425,6 +432,7 @@ class StatisticsPage extends StatelessWidget {
     );
   }
 }
+
 
 class WeatherWidget extends StatefulWidget {
   @override
