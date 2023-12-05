@@ -4,8 +4,10 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
+Future<void> main() async {
+  await dotenv.load(fileName: ".env");
   runApp(MyApp());
 }
 
@@ -184,7 +186,7 @@ class BMICalculatorPage extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(10.0),
                 color: Colors.white,
-                border: Border.all(color: Colors.black),
+                //border: Border.all(color: Colors.black),
                 boxShadow: [
                   BoxShadow(
                     color: Colors.grey.withOpacity(0.5),
@@ -361,7 +363,7 @@ class StatisticsPage extends StatelessWidget {
               child: Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
-                  border: Border.all(color: Colors.black),
+                  //border: Border.all(color: Colors.black),
                   borderRadius: BorderRadius.circular(10.0),
                 ),
                 child: Padding(
@@ -440,9 +442,15 @@ class WeatherWidget extends StatefulWidget {
 }
 
 class _WeatherWidgetState extends State<WeatherWidget> {
-  final String apiKey = '1cae93d723d74e1a8e9125206231711';
+  late String apiKey;
   final String apiUrl =
       'https://api.weatherapi.com/v1/current.json?q=Munich&key=';
+
+  @override
+  void initState() {
+    super.initState();
+    apiKey = dotenv.env['API_KEY']!;
+  }
 
   Future<Map<String, dynamic>> fetchWeather() async {
     final response = await http.get(Uri.parse('$apiUrl$apiKey'));
@@ -674,7 +682,7 @@ class PageOne extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors
                       .white, // Hintergrundfarbe der Tabelle und des Texts
-                  border: Border.all(color: Colors.black),
+                  //border: Border.all(color: Colors.black),
                   borderRadius: BorderRadius.all(Radius.circular(10.0)),
                 ),
                 child: DataTable(
@@ -751,7 +759,7 @@ class PageOne extends StatelessWidget {
               padding: EdgeInsets.all(16.0),
               decoration: BoxDecoration(
                 color: Colors.white, // Hintergrundfarbe des Texts
-                border: Border.all(color: Colors.black),
+                //border: Border.all(color: Colors.black),
                 borderRadius: BorderRadius.all(Radius.circular(10.0)),
               ),
               child: Column(
@@ -899,7 +907,7 @@ class Legend extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(10.0),
         color: Colors.white,
-        border: Border.all(color: Colors.black),
+        //border: Border.all(color: Colors.black),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -979,7 +987,7 @@ class _TrainingTableState extends State<TrainingTable> {
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
             color: Colors.white,
-            border: Border.all(color: Colors.black),
+            //border: Border.all(color: Colors.black),
             boxShadow: [
               BoxShadow(
                 color: Colors.white.withOpacity(0.5),
