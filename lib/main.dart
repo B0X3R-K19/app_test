@@ -160,6 +160,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 }
 
+//BMI
 class BMICalculatorPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -336,6 +337,7 @@ class StatisticCard extends StatelessWidget {
   }
 }
 
+//Stat
 class StatisticsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -408,7 +410,8 @@ class StatisticsPage extends StatelessWidget {
                       Container(
                         margin: EdgeInsets.only(bottom: 16.0),
                         child: StatisticCard(
-                          title: 'Wie oft warst du diese Woche schon beim Sport:',
+                          title:
+                              'Wie oft warst du diese Woche schon beim Sport:',
                           value: '1.5 M',
                         ),
                       ),
@@ -435,7 +438,7 @@ class StatisticsPage extends StatelessWidget {
   }
 }
 
-
+//Weather
 class WeatherWidget extends StatefulWidget {
   @override
   _WeatherWidgetState createState() => _WeatherWidgetState();
@@ -553,6 +556,7 @@ class _WeatherWidgetState extends State<WeatherWidget> {
   }
 }
 
+//Excercise
 class ExcerciseSamplePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {

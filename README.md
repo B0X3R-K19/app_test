@@ -1,3 +1,16 @@
-It's a simple porgram for me to learn Flutter better. I added multiple features such as a random word generator which got a like feature aswell. It adds your liked random word in a Favorites Page. 
-There is also a trainingpage which is for me to track my sport activities. 
-I will try to add another page for trainingmethods and multiple other features in the near Future.# app_test
+# app_test
+
+A new Flutter project.
+
+## Getting Started
+
+This project is a starting point for a Flutter application.
+
+A few resources to get you started if this is your first Flutter project:
+
+- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
+- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+
+For help getting started with Flutter development, view the
+[online documentation](https://docs.flutter.dev/), which offers tutorials,
+samples, guidance on mobile development, and a full API reference.
