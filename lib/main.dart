@@ -21,19 +21,34 @@ Future<void> main() async {
 /// https://fonts.foogle.com/icons
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => MyAppState(),
-      child: MaterialApp(
-        title: 'Training',
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-        ),
-        home: MyHomePage(),
+      child: Builder(
+        builder: (context) {
+          var myAppState = Provider.of<MyAppState>(context);
+          return MaterialApp(
+            title: 'Training',
+            theme: ThemeData.light().copyWith(
+              colorScheme: myAppState.isDarkMode
+                  ? ColorScheme.light()
+                  : ColorScheme.light(
+                      // Hier kannst du deine bevorzugten Farben für den Light-Mode festlegen
+                      // IS4IT: primary: Color.fromARGB(255, 211, 50, 36),
+                      primary: Color.fromARGB(255, 184, 210, 255),
+                      // blue: primary: Color.fromARGB(255, 166, 199, 255),
+                      secondary: Color.fromARGB(255, 184, 210, 255),
+                      //secondaryVariant: Colors.greenAccent,
+                    ),
+            ),
+            darkTheme: ThemeData.dark(), // Dark mode theme
+            themeMode: myAppState.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+            home: MyHomePage(),
+          );
+        },
       ),
     );
   }
@@ -49,6 +64,16 @@ class MyAppState extends ChangeNotifier {
 
   TextEditingController heightController = TextEditingController();
   TextEditingController weightController = TextEditingController();
+
+  bool _isDarkMode = false;
+
+  bool get isDarkMode => _isDarkMode;
+
+  void toggleDarkMode() {
+    _isDarkMode = !_isDarkMode;
+    print('Dark mode toggled: $_isDarkMode');
+    notifyListeners();
+  }
 
   void setHeight(double newHeight) {
     height = newHeight;
@@ -94,6 +119,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final myAppState = Provider.of<MyAppState>(context);
+
     Widget page;
     switch (selectedIndex) {
       case 0:
@@ -132,7 +159,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                   NavigationRailDestination(
                       icon: Icon(Icons.favorite),
-                      label: Text('Excercise Sample')),
+                      label: Text('Exercise Sample')),
                   NavigationRailDestination(
                     icon: Icon(Icons.table_view),
                     label: Text('BMI'),
@@ -146,14 +173,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 onDestinationSelected: (value) {
                   setState(() {
                     selectedIndex = value;
-                    // print('Selected index: $selectedIndex'); // Is needed to see which page is selected
                   });
                 },
               ),
             ),
             Expanded(
               child: Container(
-                color: Theme.of(context).colorScheme.primaryContainer,
+                color: myAppState.isDarkMode
+                    ? Colors.black
+                    : Theme.of(context).colorScheme.primaryContainer,
                 child: page,
               ),
             ),
@@ -161,6 +189,22 @@ class _MyHomePageState extends State<MyHomePage> {
         ),
       );
     });
+  }
+}
+
+class DarkModeToggle extends StatelessWidget {
+  final MyAppState myAppState;
+
+  DarkModeToggle({required this.myAppState});
+
+  @override
+  Widget build(BuildContext context) {
+    return IconButton(
+      icon: Icon(myAppState.isDarkMode ? Icons.light_mode : Icons.dark_mode),
+      onPressed: () {
+        myAppState.toggleDarkMode();
+      },
+    );
   }
 }
 
@@ -181,61 +225,59 @@ class BMICalculatorPage extends StatelessWidget {
         ),
       ),
       body: Container(
+        height: MediaQuery.of(context).size.height, // Hier die Höhe anpassen
         color: Theme.of(context).colorScheme.primaryContainer,
         padding: EdgeInsets.all(16.0),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 8.0),
-          child: Center(
-            child: Container(
-              padding: EdgeInsets.all(16.0),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.0),
-                color: Colors.white,
-                //border: Border.all(color: Colors.black),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  SizedBox(height: 16.0),
-                  SliderInput(
-                    label: 'Height (cm)',
-                    value: appState.height,
-                    onChanged: (value) {
-                      appState.setHeight(value);
-                    },
-                  ),
-                  SizedBox(height: 8.0),
-                  SliderInput(
-                    label: 'Weight (kg)',
-                    value: appState.weight,
-                    onChanged: (value) {
-                      appState.setWeight(value);
-                    },
-                  ),
-                  SizedBox(height: 16.0),
-                  ElevatedButton(
-                    onPressed: () {
-                      appState.calculateBMI();
-                    },
-                    child: Text('Calculate BMI'),
-                  ),
-                  SizedBox(height: 16.0),
-                  Text(
-                    'BMI Result: ${appState.bmiResult.toStringAsFixed(2)}',
-                    style: TextStyle(fontSize: 20.0),
-                  ),
-                  SizedBox(height: 16.0),
-                  BMIResultCategory(bmi: appState.bmiResult),
-                ],
-              ),
+        child: Center(
+          child: Container(
+            height: 500.0, // Hier die Höhe des inneren Containers anpassen
+            padding: EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10.0),
+              color: Colors.white, // Hintergrundfarbe hier setzen
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.grey.withOpacity(0.5),
+                  spreadRadius: 2,
+                  blurRadius: 5,
+                  offset: Offset(0, 3),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                SizedBox(height: 16.0),
+                SliderInput(
+                  label: 'Height (cm)',
+                  value: appState.height,
+                  onChanged: (value) {
+                    appState.setHeight(value);
+                  },
+                ),
+                SizedBox(height: 8.0),
+                SliderInput(
+                  label: 'Weight (kg)',
+                  value: appState.weight,
+                  onChanged: (value) {
+                    appState.setWeight(value);
+                  },
+                ),
+                SizedBox(height: 16.0),
+                ElevatedButton(
+                  onPressed: () {
+                    appState.calculateBMI();
+                  },
+                  child: Text('Calculate BMI'),
+                ),
+                SizedBox(height: 16.0),
+                Text(
+                  'BMI Result: ${appState.bmiResult.toStringAsFixed(2)}',
+                  style: TextStyle(fontSize: 20.0),
+                ),
+                SizedBox(height: 16.0),
+                BMIResultCategory(bmi: appState.bmiResult),
+              ],
             ),
           ),
         ),
