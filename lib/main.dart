@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'lib/pages/page_one.dart';
 import 'lib/pages/page_two.dart';
+import 'lib/pages/page_three.dart';
+import 'lib/pages/page_four.dart';
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
@@ -663,34 +665,6 @@ class ImageCard extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class PageThree extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Page Three'),
-      ),
-      body: Center(
-        child: Text('Content of Page Three'),
-      ),
-    );
-  }
-}
-
-class PageFour extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Page Four'),
-      ),
-      body: Center(
-        child: Text('Content of Page Four'),
       ),
     );
   }
