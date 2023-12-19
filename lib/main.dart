@@ -13,8 +13,8 @@ import 'package:hive/hive.dart';
 import 'lib/features/impressum_page.dart';
 import 'lib/features/legend.dart';
 import 'lib/features/statistic_page.dart';
-import 'lib/features/weather_widget.dart';
-import 'lib/features/statistic_card.dart';
+// import 'lib/features/weather_widget.dart';
+// import 'lib/features/statistic_card.dart';
 // new impoirt option for every feature: import 'lib/features/'
 
 Future<void> main() async {
