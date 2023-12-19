@@ -9,6 +9,9 @@ import 'lib/pages/page_one.dart';
 import 'lib/pages/page_two.dart';
 import 'lib/pages/page_three.dart';
 import 'lib/pages/page_four.dart';
+import 'package:hive/hive.dart';
+import 'lib/features/impressum_page.dart';
+// new impoirt option for every feature: import 'lib/features/'
 
 Future<void> main() async {
   await dotenv.load(fileName: ".env");
@@ -206,6 +209,20 @@ class DarkModeToggle extends StatelessWidget {
       },
     );
   }
+}
+
+@HiveType(typeId: 0)
+class TrainingModel extends HiveObject {
+  @HiveField(0)
+  late String day;
+
+  @HiveField(1)
+  late String date;
+
+  @HiveField(2)
+  late String trainingType;
+
+  TrainingModel(this.day, this.date, this.trainingType);
 }
 
 //BMI
@@ -906,81 +923,6 @@ class _TrainingTableState extends State<TrainingTable> {
           child: Icon(Icons.add),
         ),
       ],
-    );
-  }
-}
-
-class ImpressumPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Impressum'),
-      ),
-      body: Container(
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primaryContainer,
-        ),
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Row(
-            children: [
-              // Left Box for Text
-              Expanded(
-                flex: 1,
-                child: Container(
-                  padding: EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Impressum \n\nFabian Parzer \nAuszubildender \n\nKontakt: \nTelefon: 01234 56789 \nE-Mail: info@musterunternehmen.de \n\nIS4IT GmbH \nGrünwalder Weg 28B \n82041 Oberhaching \n\nwww.is4it.de \nSitz der Gesellschaft: Oberhaching \nGeschäftsführer: Robert Fröhlich, Stephan Kowalsky \nRegistergericht München HRB 141 845',
-                        style: TextStyle(fontSize: 20.0),
-                      ),
-                      // Add more text widgets or details as needed
-                    ],
-                  ),
-                ),
-              ),
-              SizedBox(width: 16.0), // Add spacing between the boxes
-              Expanded(
-                flex: 1,
-                child: Container(
-                  padding: EdgeInsets.all(16.0),
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10.0),
-                    color: Colors.white,
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.5),
-                        spreadRadius: 2,
-                        blurRadius: 5,
-                        offset: Offset(0, 3),
-                      ),
-                    ],
-                  ),
-                  child: Image.asset(
-                    'assets/CompanyLocation.png',
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
     );
   }
 }
