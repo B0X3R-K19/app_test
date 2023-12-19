@@ -2,18 +2,20 @@ import 'package:english_words/english_words.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
-// import 'dart:convert';
-// import 'package:http/http.dart' as http;
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'lib/pages/page_one.dart';
 import 'lib/pages/page_two.dart';
 import 'lib/pages/page_three.dart';
 import 'lib/pages/page_four.dart';
+import 'lib/pages/page_five.dart';
+import 'lib/pages/page_six.dart';
 import 'package:hive/hive.dart';
 import 'lib/features/impressum_page.dart';
 import 'lib/features/legend.dart';
 import 'lib/features/statistic_page.dart';
 import 'lib/features/bmicalculator_page.dart';
+// import 'dart:convert';
+// import 'package:http/http.dart' as http;
 // import 'lib/features/weather_widget.dart';
 // import 'lib/features/statistic_card.dart';
 // new impoirt option for every feature: import 'lib/features/'
@@ -335,34 +337,6 @@ class ImageCard extends StatelessWidget {
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class PageFive extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Page Five'),
-      ),
-      body: Center(
-        child: Text('Content of Page Five'),
-      ),
-    );
-  }
-}
-
-class PageSix extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Page Six'),
-      ),
-      body: Center(
-        child: Text('Content of Page Six'),
       ),
     );
   }
