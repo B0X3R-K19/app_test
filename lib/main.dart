@@ -3,17 +3,21 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
 import 'lib/pages/page_one.dart';
 import 'lib/pages/page_two.dart';
 import 'lib/pages/page_three.dart';
 import 'lib/pages/page_four.dart';
 import 'lib/pages/page_five.dart';
 import 'lib/pages/page_six.dart';
-import 'package:hive/hive.dart';
+
 import 'lib/features/impressum_page.dart';
 import 'lib/features/legend.dart';
 import 'lib/features/statistic_page.dart';
 import 'lib/features/bmicalculator_page.dart';
+
 // import 'dart:convert';
 // import 'package:http/http.dart' as http;
 // import 'lib/features/weather_widget.dart';
