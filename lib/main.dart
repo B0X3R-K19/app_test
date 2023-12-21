@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 
 import 'lib/pages/page_one.dart';
 import 'lib/pages/page_two.dart';
@@ -219,20 +218,6 @@ class DarkModeToggle extends StatelessWidget {
       },
     );
   }
-}
-
-@HiveType(typeId: 0)
-class TrainingModel extends HiveObject {
-  @HiveField(0)
-  late String day;
-
-  @HiveField(1)
-  late String date;
-
-  @HiveField(2)
-  late String trainingType;
-
-  TrainingModel(this.day, this.date, this.trainingType);
 }
 
 //Excercise
