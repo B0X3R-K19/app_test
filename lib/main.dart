@@ -16,6 +16,7 @@ import 'lib/features/legend.dart';
 import 'lib/features/statistic_page.dart';
 import 'lib/features/bmicalculator_page.dart';
 
+// imports which are so far not necessary but used by other features which got outsourced of the main. These imports will stay here for documentation
 // import 'dart:convert';
 // import 'package:http/http.dart' as http;
 // import 'lib/features/weather_widget.dart';
