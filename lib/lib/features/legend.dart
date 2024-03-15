@@ -24,7 +24,6 @@ class Legend extends StatelessWidget {
           Text('Arme'),
           Text('Schultern'),
           Text('Rücken'),
-          // you could add more trainingmethods here
         ],
       ),
     );

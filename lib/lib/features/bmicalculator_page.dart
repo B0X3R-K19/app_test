@@ -19,16 +19,16 @@ class BMICalculatorPage extends StatelessWidget {
         ),
       ),
       body: Container(
-        height: MediaQuery.of(context).size.height, // Hier die Höhe anpassen
+        height: MediaQuery.of(context).size.height, 
         color: Theme.of(context).colorScheme.primaryContainer,
         padding: EdgeInsets.all(16.0),
         child: Center(
           child: Container(
-            height: 500.0, // Hier die Höhe des inneren Containers anpassen
+            height: 500.0, 
             padding: EdgeInsets.all(16.0),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(10.0),
-              color: Colors.white, // Hintergrundfarbe hier setzen
+              color: Colors.white, 
               boxShadow: [
                 BoxShadow(
                   color: Colors.grey.withOpacity(0.5),

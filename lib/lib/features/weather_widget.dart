@@ -32,23 +32,20 @@ class _WeatherWidgetState extends State<WeatherWidget> {
   String getWeatherIcon(String condition, double temperature,
       double? precipitation, double? windSpeed) {
     if (condition.toLowerCase() == 'clear') {
-      return '🌞'; // Sunsymbol
+      return '🌞'; 
     } else if (condition.toLowerCase() == 'cloudy') {
-      return '☁️'; // Clouds
+      return '☁️'; 
     } else if (condition.toLowerCase() == 'rain') {
-      return '🌧️'; // Rain
+      return '🌧️'; 
     } else {
-      // Symbol for unknown Weathercondition
-
-      // will decide which weather is today
       if (temperature < 10 &&
           precipitation != null &&
           windSpeed != null &&
           precipitation > 50 &&
           windSpeed > 20) {
-        return '🌧️'; // Symbol for bad weather
+        return '🌧️'; 
       } else {
-        return '❓'; // Symbol for unknown weathercondition
+        return '❓'; 
       }
     }
   }

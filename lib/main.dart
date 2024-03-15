@@ -33,7 +33,6 @@ Future<void> main() async {
 }
 
 /// https://modusx.de/fitness-uebungen/muskelgruppe/brust/
-/// If you read this... might think about adding the older F1 calculator software you made in a seperate site
 /// https://www.weatherapi.com/
 /// https://fonts.foogle.com/icons
 
@@ -51,9 +50,10 @@ class MyApp extends StatelessWidget {
             title: 'Training',
             theme: ThemeData.light().copyWith(
               colorScheme: myAppState.isDarkMode
-                  ? ColorScheme.light()
+                  ? ColorScheme.dark().copyWith(
+                      background: Colors.black, 
+                    )
                   : ColorScheme.light(
-                      // Hier kannst du deine bevorzugten Farben für den Light-Mode festlegen
                       // IS4IT: primary: Color.fromARGB(255, 211, 50, 36),
                       primary: Color.fromARGB(255, 184, 210, 255),
                       // blue: primary: Color.fromARGB(255, 166, 199, 255),
@@ -61,7 +61,12 @@ class MyApp extends StatelessWidget {
                       //secondaryVariant: Colors.greenAccent,
                     ),
             ),
-            darkTheme: ThemeData.dark(), // Dark mode theme
+            darkTheme: ThemeData.dark().copyWith(
+              colorScheme: ColorScheme.dark().copyWith(
+                background: const Color.fromARGB(255, 71, 71, 71), // Hintergrundfarbe im Dunkelmodus
+                // Weitere Dunkelmodusfarben anpassen
+              ),
+            ),
             themeMode: myAppState.isDarkMode ? ThemeMode.dark : ThemeMode.light,
             home: MyHomePage(),
           );
@@ -72,11 +77,12 @@ class MyApp extends StatelessWidget {
 }
 
 class MyAppState extends ChangeNotifier {
+  
   var current = WordPair.random();
 
   // BMI-related variables
-  double height = 170.0; // Default value, change if needed
-  double weight = 70.0; // Default value, change if needed
+  double height = 170.0; 
+  double weight = 70.0; 
   double bmiResult = 0.0;
 
   TextEditingController heightController = TextEditingController();
@@ -156,10 +162,17 @@ class _MyHomePageState extends State<MyHomePage> {
         page = ImpressumPage();
         break;
       default:
-        throw UnimplementedError('no widget for $selectedIndex');
+        page = Container();
+        break;
     }
     return LayoutBuilder(builder: (context, constraints) {
       return Scaffold(
+        appBar: AppBar(
+          title: Text('Trainingsplaner'),
+          actions: [
+            DarkModeToggle(myAppState: myAppState),
+          ],
+        ),
         body: Row(
           children: [
             SafeArea(
@@ -175,8 +188,8 @@ class _MyHomePageState extends State<MyHomePage> {
                     label: Text('Training'),
                   ),
                   NavigationRailDestination(
-                      icon: Icon(Icons.favorite),
-                      label: Text('Exercise Sample')),
+                    icon: Icon(Icons.favorite),
+                    label: Text('Exercise Sample')),
                   NavigationRailDestination(
                     icon: Icon(Icons.table_view),
                     label: Text('BMI'),
@@ -196,9 +209,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Expanded(
               child: Container(
-                color: myAppState.isDarkMode
-                    ? Colors.black
-                    : Theme.of(context).colorScheme.primaryContainer,
                 child: page,
               ),
             ),
@@ -208,6 +218,8 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 }
+
+
 
 class DarkModeToggle extends StatelessWidget {
   final MyAppState myAppState;
@@ -225,6 +237,7 @@ class DarkModeToggle extends StatelessWidget {
   }
 }
 
+
 //Excercise
 class ExcerciseSamplePage extends StatelessWidget {
   @override
@@ -234,9 +247,9 @@ class ExcerciseSamplePage extends StatelessWidget {
         title: Text('Exercise Samples'),
       ),
       body: GridView.count(
-        crossAxisCount: 2, // Anzahl der Spalten
-        crossAxisSpacing: 16.0, // horizontaler Abstand zwischen den Elementen
-        mainAxisSpacing: 16.0, // vertikaler Abstand zwischen den Elementen
+        crossAxisCount: 2, 
+        crossAxisSpacing: 16.0, 
+        mainAxisSpacing: 16.0, 
         children: [
           ImageCard(
             imageUrl:
@@ -464,7 +477,7 @@ class _TrainingTableState extends State<TrainingTable> {
                 day,
                 date,
                 'Krafttraining',
-              ]); // Initialize to the first item in trainingTypes
+              ]); 
             });
           },
           child: Icon(Icons.add),
@@ -473,21 +486,3 @@ class _TrainingTableState extends State<TrainingTable> {
     );
   }
 }
-
-                /* the following Feature needs to be postponed to the future due to Google difficulties
-                child: GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                    target: LatLng(37.7749, -122.4194), // Replace with your desired initial position
-                    zoom: 14.0,
-                  ),
-                  markers: Set<Marker>.of([
-                    Marker(
-                      markerId: MarkerId('YourMarkerId'),
-                      position: LatLng(37.7749, -122.4194), // Replace with your marker position
-                      infoWindow: InfoWindow(
-                        title: 'Your Marker Title',
-                        snippet: 'Your Marker Snippet',
-                      ),
-                    ),
-                  ]),
-                ),*/

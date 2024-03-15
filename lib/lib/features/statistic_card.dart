@@ -11,7 +11,7 @@ class StatisticCard extends StatelessWidget {
     return Card(
       elevation: 5,
       margin: EdgeInsets.all(10),
-      color: Colors.white, // backgroundcolor of the Card
+      color: Colors.white, 
       child: Padding(
         padding: EdgeInsets.all(20),
         child: Column(

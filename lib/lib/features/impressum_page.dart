@@ -15,7 +15,6 @@ class ImpressumPage extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Row(
             children: [
-              // Left Box for Text
               Expanded(
                 flex: 1,
                 child: Container(
@@ -39,12 +38,11 @@ class ImpressumPage extends StatelessWidget {
                         'Impressum \n\nFabian Parzer \nAuszubildender \n\nKontakt: \nTelefon: 01234 56789 \nE-Mail: info@musterunternehmen.de \n\nIS4IT GmbH \nGrünwalder Weg 28B \n82041 Oberhaching \n\nwww.is4it.de \nSitz der Gesellschaft: Oberhaching \nGeschäftsführer: Robert Fröhlich, Stephan Kowalsky \nRegistergericht München HRB 141 845',
                         style: TextStyle(fontSize: 20.0),
                       ),
-                      // Add more text widgets or details as needed
                     ],
                   ),
                 ),
               ),
-              SizedBox(width: 16.0), // Add spacing between the boxes
+              SizedBox(width: 16.0),
               Expanded(
                 flex: 1,
                 child: Container(

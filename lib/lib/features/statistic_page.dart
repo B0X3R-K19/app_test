@@ -58,7 +58,7 @@ class StatisticsPage extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(width: 16.0), // Spacer
+            SizedBox(width: 16.0), 
             Expanded(
               child: Container(
                 decoration: BoxDecoration(
